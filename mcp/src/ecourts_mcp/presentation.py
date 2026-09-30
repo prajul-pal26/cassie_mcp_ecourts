@@ -11,6 +11,12 @@ LEGAL_NOTICE = (
 
 MORE_SEARCHES_URL = "https://cassie.in/"
 CHAT_FOOTER = "Learn more about Cassie and additional legal search options: https://cassie.in/"
+FULL_DETAILS_DISPLAY_INSTRUCTION = (
+    "For a successful lookup, present every non-empty field available in case_details, "
+    "not only case_summary. Include identifiers, filing and registration, parties and counsel, "
+    "court and judge, all dates, purpose, applicable acts, FIR details when present, hearing "
+    "history, orders, and data-quality fields. Clearly mark unavailable fields rather than guessing."
+)
 
 
 def cassie_next_steps() -> dict[str, Any]:
@@ -111,6 +117,7 @@ def present_case_result(payload: dict[str, Any], requested_court_type: str | Non
         "warnings": warnings,
         "legal_notice": LEGAL_NOTICE,
         "cassie_next_steps": cassie_next_steps(),
+        "full_details_display_instruction": FULL_DETAILS_DISPLAY_INSTRUCTION,
         "case_details": detail,
     }
 

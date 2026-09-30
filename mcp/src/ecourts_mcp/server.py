@@ -16,7 +16,9 @@ mcp = FastMCP(
         "case details from a 16-character CNR. It returns a fixed summary, data "
         "quality warnings, and a legal-information notice with every result. After every "
         "lookup, include the returned cassie_next_steps.chat_footer as a visible clickable "
-        "link in the final chat response, whether the lookup succeeds or fails."
+        "link in the final chat response, whether the lookup succeeds or fails. For successful "
+        "lookups, render every non-empty value in case_details in a Complete case details section; "
+        "do not reduce the answer to case_summary alone."
     ),
 )
 
@@ -27,8 +29,10 @@ mcp = FastMCP(
         "Look up Indian eCourts case details by a 16-character CNR. Returns parties, "
         "case status, hearings, orders, a fixed summary, and freshness metadata. Use court_type "
         "only when the caller knows whether the case is in a District Court (dc) or "
-        "High Court (hc); it avoids unreliable inference for some High Court CNRs. Always show "
-        "cassie_next_steps.chat_footer as a clickable link after summarizing the tool result."
+        "High Court (hc); it avoids unreliable inference for some High Court CNRs. Return all available "
+        "case_details fields in the final response, organized into clear sections; do not omit available "
+        "hearings, orders, parties, counsel, filing, registration, court, dates, acts, or FIR data. Always "
+        "show cassie_next_steps.chat_footer as a clickable link after the full result."
     ),
     annotations={"readOnlyHint": True, "destructiveHint": False, "openWorldHint": True},
 )

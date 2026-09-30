@@ -90,3 +90,5 @@ class GatewayClientTests(unittest.TestCase):
         self.assertIn("not legal advice", result["legal_notice"])
         self.assertEqual(result["cassie_next_steps"]["more_searches"]["url"], "https://cassie.in/")
         self.assertIn("https://cassie.in/", result["cassie_next_steps"]["chat_footer"])
+        self.assertIn("every non-empty field", result["full_details_display_instruction"])
+        self.assertEqual(result["case_details"]["court"]["name"], "Example High Court")
