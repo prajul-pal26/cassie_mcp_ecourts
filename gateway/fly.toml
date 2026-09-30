@@ -1,0 +1,48 @@
+# Fly.io config for the FastAPI build of the cassie-gateway.
+#
+# This is a SEPARATE app name so deploying it never touches the live Flask
+# `cassie-gateway`. When you're ready to cut production over, either point the
+# `cassie-gateway` app's deploy at this folder, or swap the DNS/route to this
+# app. Do NOT scale beyond a single machine — the reliability state is
+# in-process (see Dockerfile note).
+app = "cassie-gateway-fastapi"
+primary_region = "bom"
+kill_signal = "SIGTERM"
+kill_timeout = "30s"
+
+[build]
+  dockerfile = "Dockerfile"
+
+[env]
+  ECOURTS_DATA_DIR = "/data"
+  GATEWAY_PORT = "8000"
+  LOG_LEVEL = "INFO"
+  SSE_HEARTBEAT_SECONDS = "20"
+  UPSTREAM_BURST = "5"
+  UPSTREAM_RPS_CAP = "15"
+
+# Persistent volume (bom) mounted at /data — the SQLite cache/job-store and any
+# runtime-added proxies survive restarts/redeploys. Volume: ecourts_fastapi_data.
+[[mounts]]
+  source = "ecourts_fastapi_data"
+  destination = "/data"
+
+[http_service]
+  internal_port = 8000
+  force_https = true
+  auto_stop_machines = false
+  auto_start_machines = true
+  min_machines_running = 1
+
+  [[http_service.checks]]
+    method = "GET"
+    path = "/health"
+    interval = "15s"
+    timeout = "5s"
+    grace_period = "10s"
+
+# Single machine only — reliability singletons are per-process.
+# 1 GB (not 512 MB) because ITAT captcha loads ddddocr/onnxruntime + opencv.
+[[vm]]
+  size = "shared-cpu-1x"
+  memory = "1024mb"

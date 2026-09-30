@@ -1,0 +1,33 @@
+# Keep the Fly build context minimal — only app/ + requirements.txt are needed
+# by the Dockerfile. Everything below is local-only and must NOT be uploaded
+# (saves build time + upload bandwidth).
+
+# local virtualenv (huge: onnxruntime/opencv/numpy)
+.venv/
+venv/
+
+# python caches
+__pycache__/
+**/__pycache__/
+*.py[cod]
+*.egg-info/
+
+# runtime state (SQLite cache/jobs) — created fresh in the container
+data/
+
+# logs
+*.log
+
+# local tooling / docs not needed in the image
+run_local.sh
+README.md
+fly.toml
+Dockerfile
+.dockerignore
+
+# secrets / git
+.env
+.env.*
+.git/
+.gitignore
+.DS_Store

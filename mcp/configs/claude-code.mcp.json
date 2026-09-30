@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "ecourts-case-lookup": {
+      "command": "ecourts-case-mcp",
+      "env": {
+        "ECOURTS_GATEWAY_URL": "http://127.0.0.1:9021"
+      }
+    }
+  }
+}

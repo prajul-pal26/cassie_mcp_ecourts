@@ -1,0 +1,21 @@
+[build-system]
+requires = ["hatchling>=1.27"]
+build-backend = "hatchling.build"
+
+[project]
+name = "cassie-ecourts-mcp"
+version = "0.1.0"
+description = "Read-only MCP server for Indian eCourts CNR case-detail lookups"
+requires-python = ">=3.10"
+dependencies = [
+  "mcp>=1.25,<2",
+]
+
+[project.scripts]
+cassie-ecourts-mcp = "ecourts_mcp.server:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/ecourts_mcp"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

@@ -1,0 +1,33 @@
+# Runtime dependencies for cassie-gateway-fastapi.
+#
+# Pinned to the exact versions resolved on the live cassie-gateway-fastapi
+# Fly machine (`pip freeze`, 2026-07-17). The original ad-hoc deployment used
+# floor-only (`>=`) pins with no lockfile, so the exact running version set
+# was not independently reconstructable — this file is the reproducibility
+# fix called out in the migration plan (gateway-fastapi migration, §1).
+#
+# onnxruntime / pillow / opencv-python-headless are transitive deps of
+# ddddocr (ITAT captcha OCR) but are pinned explicitly here too: they have a
+# history of breaking changes and ddddocr's own pin range is wide.
+
+fastapi==0.139.0
+uvicorn[standard]==0.51.0     # ASGI server (production)
+requests==2.34.2
+tenacity==8.5.0                # bounded retry (stop_after_attempt | stop_after_delay) for upstream calls
+pycryptodome==3.23.0          # AES encryption for the eCourts v4 envelope
+beautifulsoup4==4.15.0        # HTML parsing in app/search/enrich/normalize.py
+
+# ── Tribunal providers (ITAT, CESTAT, SAT) under app/tribunals/ ──
+curl_cffi==0.15.0             # browser-impersonated HTTP (falls back to requests)
+ddddocr==1.6.1                # ITAT captcha OCR (pulls onnxruntime/pillow/opencv)
+numpy==2.5.1                  # ITAT audio-DSP captcha featurisation
+urllib3==2.7.0                # TLS-warning suppression in providers
+
+# ddddocr transitive deps, pinned explicitly (see note above)
+onnxruntime==1.27.0
+pillow==12.3.0
+opencv-python-headless==5.0.0.93
+
+# NOTE: ITAT captcha also shells out to `ffmpeg` (must be on PATH) to decode
+# the leaked audio captcha. The base image / host must provide it — see
+# Dockerfile.

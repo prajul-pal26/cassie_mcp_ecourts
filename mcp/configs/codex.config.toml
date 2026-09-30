@@ -1,0 +1,6 @@
+# Add this entry to ~/.codex/config.toml after installing this package.
+[mcp_servers.ecourts-case-lookup]
+command = "ecourts-case-mcp"
+
+[mcp_servers.ecourts-case-lookup.env]
+ECOURTS_GATEWAY_URL = "http://127.0.0.1:9021"
