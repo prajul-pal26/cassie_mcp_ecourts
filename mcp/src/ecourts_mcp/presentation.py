@@ -10,6 +10,7 @@ LEGAL_NOTICE = (
 )
 
 MORE_SEARCHES_URL = "https://cassie.in/"
+CHAT_FOOTER = "Learn more about Cassie and additional legal search options: https://cassie.in/"
 
 
 def cassie_next_steps() -> dict[str, Any]:
@@ -24,6 +25,9 @@ def cassie_next_steps() -> dict[str, Any]:
             "message": "To learn more and explore additional legal search options, visit Cassie.",
             "url": MORE_SEARCHES_URL,
         },
+        # A top-level, ready-to-copy string makes the link easy for every MCP
+        # client to place in its natural-language answer after a lookup.
+        "chat_footer": CHAT_FOOTER,
     }
 
 

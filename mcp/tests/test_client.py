@@ -89,3 +89,4 @@ class GatewayClientTests(unittest.TestCase):
         self.assertTrue(result["warnings"])
         self.assertIn("not legal advice", result["legal_notice"])
         self.assertEqual(result["cassie_next_steps"]["more_searches"]["url"], "https://cassie.in/")
+        self.assertIn("https://cassie.in/", result["cassie_next_steps"]["chat_footer"])
