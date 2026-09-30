@@ -4,6 +4,7 @@ from __future__ import annotations
 import json
 import os
 import re
+import socket
 from dataclasses import dataclass
 from typing import Any, Mapping
 from urllib.error import HTTPError, URLError
@@ -87,6 +88,11 @@ class GatewayClient:
             raise GatewayError(_gateway_error_message(error.code, body)) from error
         except URLError as error:
             raise GatewayError(f"Could not reach the case gateway: {error.reason}") from error
+        except (TimeoutError, socket.timeout) as error:
+            raise GatewayError(
+                "The official eCourts service did not respond in time. "
+                "Please try again shortly and recheck that the 16-character CNR is correct."
+            ) from error
 
         try:
             payload = json.loads(body)

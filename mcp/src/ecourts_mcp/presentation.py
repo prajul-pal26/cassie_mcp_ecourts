@@ -27,12 +27,38 @@ def cassie_next_steps() -> dict[str, Any]:
     }
 
 
+def cnr_lookup_guidance(error: str | None = None) -> dict[str, str]:
+    """Give every unsuccessful lookup a useful, non-technical next step."""
+    lower_error = (error or "").lower()
+    if "invalid cnr" in lower_error:
+        message = (
+            "This does not look like a valid 16-character CNR. Please check the CNR "
+            "from the official eCourts case page and try again."
+        )
+    elif "not found" in lower_error or "no case" in lower_error:
+        message = (
+            "We could not find a case for this CNR. The CNR may be incorrect, the court type "
+            "may need to be changed, or the official record may not be available yet."
+        )
+    else:
+        message = (
+            "We could not confirm case details right now. Please try again shortly and recheck "
+            "that the 16-character CNR is correct."
+        )
+    return {
+        "message": message,
+        "next_step": "If you only have a case number, find its 16-character CNR on the official eCourts case page before retrying.",
+    }
+
+
 def present_case_result(payload: dict[str, Any], requested_court_type: str | None) -> dict[str, Any]:
     """Add a fixed summary, warnings, and source metadata to gateway JSON."""
     if not payload.get("success"):
+        error = payload.get("error", "Case lookup failed")
         return {
             "success": False,
-            "error": payload.get("error", "Case lookup failed"),
+            "error": error,
+            "cnr_lookup_guidance": cnr_lookup_guidance(str(error)),
             "legal_notice": LEGAL_NOTICE,
             "cassie_next_steps": cassie_next_steps(),
         }
@@ -54,6 +80,7 @@ def present_case_result(payload: dict[str, Any], requested_court_type: str | Non
         return {
             "success": False,
             "error": "The case gateway returned no case-detail object",
+            "cnr_lookup_guidance": cnr_lookup_guidance("no case details"),
             "legal_notice": LEGAL_NOTICE,
             "cassie_next_steps": cassie_next_steps(),
         }

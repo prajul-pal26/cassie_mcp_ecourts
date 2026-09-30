@@ -50,6 +50,17 @@ class GatewayClientTests(unittest.TestCase):
         with self.assertRaisesRegex(GatewayError, "court_type"):
             GatewayClient("https://gateway.example").lookup_case("ABCD123456789012", "sc")
 
+    def test_lookup_turns_network_timeout_into_helpful_message(self):
+        client = GatewayClient("https://gateway.example", timeout_seconds=1)
+        with patch("ecourts_mcp.client.urlopen", side_effect=TimeoutError("slow upstream")):
+            with self.assertRaisesRegex(GatewayError, "did not respond in time"):
+                client.lookup_case("ABCD123456789012")
+
+    def test_failed_presentation_explains_how_to_check_cnr(self):
+        result = present_case_result({"success": False, "error": "case not found"}, "hc")
+        self.assertIn("CNR may be incorrect", result["cnr_lookup_guidance"]["message"])
+        self.assertIn("16-character CNR", result["cnr_lookup_guidance"]["next_step"])
+
     def test_presentation_always_includes_summary_quality_and_notice(self):
         result = present_case_result(
             {
