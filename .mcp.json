@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "cassie-ecourts": {
+      "command": "${PLUGIN_ROOT}/mcp/.venv/bin/python",
+      "args": ["${PLUGIN_ROOT}/mcp/run_mcp.py"],
+      "cwd": "${PLUGIN_ROOT}"
+    }
+  }
+}

@@ -1,6 +1,6 @@
 {
   "name": "cassie-ecourts-mcp",
-  "version": "0.1.0",
+  "version": "0.1.0+codex.20260930021536",
   "description": "Local Indian eCourts CNR case lookup.",
-  "mcpServers": "./mcp.json"
+  "mcpServers": "./.mcp.json"
 }
