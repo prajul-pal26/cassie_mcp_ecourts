@@ -1,7 +1,7 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "cassie-ecourts-mcp",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Run local Indian eCourts CNR case lookups through Cassie.",
   "author": {"name": "Cassie"},
   "extensions": {
@@ -13,8 +13,8 @@
         "developerName": "Cassie",
         "category": "Productivity",
         "capabilities": ["MCP"],
-        "composerIcon": "./assets/cassie-logo.png",
-        "logo": "./assets/cassie-logo.png",
+        "composerIcon": "./assets/cassie-logo-white.png",
+        "logo": "./assets/cassie-logo-white.png",
         "defaultPrompt": "Look up an Indian court case by its CNR."
       }
     }
