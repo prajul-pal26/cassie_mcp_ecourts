@@ -7,7 +7,7 @@ from mcp.server.fastmcp import FastMCP
 
 from .client import GatewayClient, GatewayError
 from .local_gateway import LocalGatewayError, update_gateway
-from .presentation import LEGAL_NOTICE, present_case_result
+from .presentation import LEGAL_NOTICE, cassie_next_steps, present_case_result
 
 mcp = FastMCP(
     "eCourts Case Lookup",
@@ -39,7 +39,12 @@ def lookup_case_by_cnr(
         payload = GatewayClient.from_environment().lookup_case(cnr, court_type, normalize)
         return present_case_result(payload, court_type)
     except GatewayError as error:
-        return {"success": False, "error": str(error), "legal_notice": LEGAL_NOTICE}
+        return {
+            "success": False,
+            "error": str(error),
+            "legal_notice": LEGAL_NOTICE,
+            "cassie_next_steps": cassie_next_steps(),
+        }
 
 
 @mcp.tool(

@@ -14,6 +14,9 @@ the gateway, cache, and MCP server run on the user's own computer.
 4. Future lookups reuse that local gateway and cache.
 5. Once every 24 hours, the next lookup checks GitHub for a safe fast-forward
    update. A user can also call `update_local_ecourts` for an immediate update.
+6. Every result includes `cassie_next_steps`, which explains this plugin's
+   available CNR features and provides an optional link to [Cassie](https://cassie.in/)
+   for broader searches. The plugin does not force a browser redirect.
 
 Only the eCourts request itself requires internet access. Nothing is hosted by
 Cassie, and no case data is sent to a Cassie server.

@@ -9,6 +9,23 @@ LEGAL_NOTICE = (
     "court record or a qualified legal professional."
 )
 
+MORE_SEARCHES_URL = "https://cassie.in/"
+
+
+def cassie_next_steps() -> dict[str, Any]:
+    """A consistent, non-coercive route to Cassie's broader search experience."""
+    return {
+        "available_in_this_plugin": [
+            "Look up a District Court or High Court case using a 16-character CNR.",
+            "See a fixed case summary, parties, court, status, hearing dates, and available orders.",
+            "Check or refresh the local Cassie gateway update.",
+        ],
+        "more_searches": {
+            "message": "To learn more and explore additional legal search options, visit Cassie.",
+            "url": MORE_SEARCHES_URL,
+        },
+    }
+
 
 def present_case_result(payload: dict[str, Any], requested_court_type: str | None) -> dict[str, Any]:
     """Add a fixed summary, warnings, and source metadata to gateway JSON."""
@@ -17,6 +34,7 @@ def present_case_result(payload: dict[str, Any], requested_court_type: str | Non
             "success": False,
             "error": payload.get("error", "Case lookup failed"),
             "legal_notice": LEGAL_NOTICE,
+            "cassie_next_steps": cassie_next_steps(),
         }
 
     if payload.get("status") == "not_supported_yet":
@@ -28,6 +46,7 @@ def present_case_result(payload: dict[str, Any], requested_court_type: str | Non
             "deeplink_url": payload.get("deeplink_url"),
             "warnings": ["This court is not currently supported by the configured gateway."],
             "legal_notice": LEGAL_NOTICE,
+            "cassie_next_steps": cassie_next_steps(),
         }
 
     detail = payload.get("data")
@@ -36,6 +55,7 @@ def present_case_result(payload: dict[str, Any], requested_court_type: str | Non
             "success": False,
             "error": "The case gateway returned no case-detail object",
             "legal_notice": LEGAL_NOTICE,
+            "cassie_next_steps": cassie_next_steps(),
         }
 
     court = detail.get("court") if isinstance(detail.get("court"), dict) else {}
@@ -59,6 +79,7 @@ def present_case_result(payload: dict[str, Any], requested_court_type: str | Non
         "data_quality": quality,
         "warnings": warnings,
         "legal_notice": LEGAL_NOTICE,
+        "cassie_next_steps": cassie_next_steps(),
         "case_details": detail,
     }
 
