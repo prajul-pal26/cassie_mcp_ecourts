@@ -7,7 +7,7 @@
   "extensions": {
     "com.openai": {
       "interface": {
-        "displayName": "Cassie eCourts MCP",
+        "displayName": "Cassie",
         "shortDescription": "Local CNR case lookup",
         "longDescription": "Looks up Indian eCourts case details by CNR through a local, on-demand Cassie gateway.",
         "developerName": "Cassie",
